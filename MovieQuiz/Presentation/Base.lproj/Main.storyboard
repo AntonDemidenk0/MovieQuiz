@@ -57,6 +57,11 @@
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="YXg-5i-YH5" secondAttribute="height" multiplier="2:3" id="Qbu-1U-ar5"/>
                                         </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="20"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bu6-Sh-Qxe" userLabel="Question Label">
                                         <rect key="frame" x="0.0" y="645.33333333333337" width="388" height="109.66666666666663"/>
@@ -151,7 +156,9 @@
                     <connections>
                         <outlet property="counterLabel" destination="agb-vM-z70" id="f01-S6-hOz"/>
                         <outlet property="imageView" destination="YXg-5i-YH5" id="xw7-7a-tBL"/>
+                        <outlet property="noButton" destination="QN6-Ws-af7" id="SeF-ar-haA"/>
                         <outlet property="textLabel" destination="bu6-Sh-Qxe" id="Udf-nY-9WC"/>
+                        <outlet property="yesButton" destination="PFg-EE-tpA" id="wtX-Ko-CbB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
