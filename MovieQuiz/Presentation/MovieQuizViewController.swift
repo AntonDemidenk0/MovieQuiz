@@ -16,11 +16,11 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     // MARK: - Overrides Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         let questionFactory = QuestionFactory()
         questionFactory.delegate = self
         self.questionFactory = questionFactory
-
+        
         questionFactory.requestNextQuestion()
     }
     // MARK: - QuestionFactoryDelegate
@@ -33,6 +33,14 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         
         DispatchQueue.main.async { [weak self] in
             self?.show(quiz: viewModel)
+        }
+    }
+    // MARK: - AlertPresenter Methods
+    func resetQuestionsResult() {
+        self.currentQuestionIndex = 0
+        self.correctAnswers = 0
+        if let questionFactory = questionFactory {
+            questionFactory.requestNextQuestion()
         }
     }
     // MARK: - IB Actions
@@ -64,25 +72,6 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         yesButton.isEnabled = true
         noButton.isEnabled = true
     }
-    private func show(quiz result: QuizResultsViewModel) {
-        let alert = UIAlertController(
-            title: result.title,
-            message: result.text,
-            preferredStyle: .alert)
-        
-        let action = UIAlertAction(title: result.buttonText, style: .default) {[weak self] _ in
-            guard let self = self else { return }
-            self.currentQuestionIndex = 0
-            self.correctAnswers = 0
-            if let questionFactory = questionFactory {
-                questionFactory.requestNextQuestion()
-            }
-        }
-        
-        alert.addAction(action)
-        
-        self.present(alert, animated: true, completion: nil)
-    }
     private func showAnswerResult(isCorrect: Bool) {
         if isCorrect {
             correctAnswers += 1
@@ -102,11 +91,15 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
             let text = correctAnswers == questionsAmount ?
             "Поздравляем, вы ответили на 10 из 10!" :
             "Вы ответили на \(correctAnswers) из 10, попробуйте ещё раз!"
-            let viewModel = QuizResultsViewModel(
+            let viewModel = AlertModel(
                 title: "Этот раунд окончен!",
-                text: text,
-                buttonText: "Сыграть ещё раз")
-            show(quiz: viewModel)
+                message: text,
+                buttonText: "Сыграть ещё раз",
+                completion: { [weak self] in
+                    self?.resetQuestionsResult()
+                })
+            let alertPresenter = AlertPresenter(viewController: self)
+            alertPresenter.show(quiz: viewModel)
             imageView.layer.borderWidth = 0
         } else {
             currentQuestionIndex += 1

@@ -14,6 +14,8 @@
 		1FBBE4A52BCD38DB0068F09B /* QuizStepViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBBE4A42BCD38DB0068F09B /* QuizStepViewModel.swift */; };
 		1FBBE4A72BCD38EF0068F09B /* QuizResultsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBBE4A62BCD38EF0068F09B /* QuizResultsViewModel.swift */; };
 		1FBBE4A92BCD38FF0068F09B /* QuizQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBBE4A82BCD38FF0068F09B /* QuizQuestion.swift */; };
+		1FBD01452BD11C9200AC22DC /* AlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBD01442BD11C9200AC22DC /* AlertPresenter.swift */; };
+		1FBD01472BD11CE500AC22DC /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBD01462BD11CE500AC22DC /* AlertModel.swift */; };
 		1FFA3F3A2BCFC48200459860 /* QuestionFactoryDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFA3F392BCFC48200459860 /* QuestionFactoryDelegate.swift */; };
 		AD1ABAB22831907B00B3E448 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1ABAB12831907B00B3E448 /* AppDelegate.swift */; };
 		AD1ABAB42831907B00B3E448 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1ABAB32831907B00B3E448 /* SceneDelegate.swift */; };
@@ -34,6 +36,8 @@
 		1FBBE4A42BCD38DB0068F09B /* QuizStepViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizStepViewModel.swift; sourceTree = "<group>"; };
 		1FBBE4A62BCD38EF0068F09B /* QuizResultsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizResultsViewModel.swift; sourceTree = "<group>"; };
 		1FBBE4A82BCD38FF0068F09B /* QuizQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizQuestion.swift; sourceTree = "<group>"; };
+		1FBD01442BD11C9200AC22DC /* AlertPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenter.swift; sourceTree = "<group>"; };
+		1FBD01462BD11CE500AC22DC /* AlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
 		1FFA3F392BCFC48200459860 /* QuestionFactoryDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionFactoryDelegate.swift; sourceTree = "<group>"; };
 		AD1ABAAE2831907B00B3E448 /* MovieQuiz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieQuiz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD1ABAB12831907B00B3E448 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -74,6 +78,7 @@
 				1FBBE4A42BCD38DB0068F09B /* QuizStepViewModel.swift */,
 				1FBBE4A62BCD38EF0068F09B /* QuizResultsViewModel.swift */,
 				1FBBE4A82BCD38FF0068F09B /* QuizQuestion.swift */,
+				1FBD01462BD11CE500AC22DC /* AlertModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -91,6 +96,7 @@
 		8F4738322848DE2A005DF65E /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				1FBD01442BD11C9200AC22DC /* AlertPresenter.swift */,
 				AD1ABAB52831907B00B3E448 /* MovieQuizViewController.swift */,
 				AD1ABAB72831907B00B3E448 /* Main.storyboard */,
 			);
@@ -226,9 +232,11 @@
 				AD7AFA552836189F00399704 /* Array+Extensions.swift in Sources */,
 				1FB68F642BCE7F1600BA8FF1 /* QuestionFactoryProtocol.swift in Sources */,
 				1FFA3F3A2BCFC48200459860 /* QuestionFactoryDelegate.swift in Sources */,
+				1FBD01472BD11CE500AC22DC /* AlertModel.swift in Sources */,
 				AD1ABAB62831907B00B3E448 /* MovieQuizViewController.swift in Sources */,
 				1FBBE4A52BCD38DB0068F09B /* QuizStepViewModel.swift in Sources */,
 				1FBBE4A92BCD38FF0068F09B /* QuizQuestion.swift in Sources */,
+				1FBD01452BD11C9200AC22DC /* AlertPresenter.swift in Sources */,
 				1FBBE4A32BCD37000068F09B /* QuestionFactory.swift in Sources */,
 				AD77F5742857F8810062FB14 /* Date+Extensions.swift in Sources */,
 				AD1ABAB22831907B00B3E448 /* AppDelegate.swift in Sources */,
