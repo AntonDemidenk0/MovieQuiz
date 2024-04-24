@@ -11,6 +11,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     private let questionsAmount: Int = 10
     private var questionFactory: QuestionFactoryProtocol?
     private var currentQuestion: QuizQuestion?
+    private let statisticService = StatisticServiceImplementation()
     private var currentQuestionIndex = 0
     private var correctAnswers = 0
     // MARK: - Overrides Methods
@@ -20,7 +21,6 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         let questionFactory = QuestionFactory()
         questionFactory.delegate = self
         self.questionFactory = questionFactory
-        
         questionFactory.requestNextQuestion()
     }
     // MARK: - QuestionFactoryDelegate
@@ -88,6 +88,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     }
     private func showNextQuestionOrResults() {
         if currentQuestionIndex == questionsAmount - 1 {
+            endGame(correctAnswers: correctAnswers, totalQuestions: questionsAmount)
             let text = correctAnswers == questionsAmount ?
             "Поздравляем, вы ответили на 10 из 10!" :
             "Вы ответили на \(correctAnswers) из 10, попробуйте ещё раз!"
@@ -95,11 +96,13 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
                 title: "Этот раунд окончен!",
                 message: text,
                 buttonText: "Сыграть ещё раз",
+                correctAnswers: correctAnswers,
+                totalQuestions: questionsAmount,
                 completion: { [weak self] in
                     self?.resetQuestionsResult()
                 })
             let alertPresenter = AlertPresenter(viewController: self)
-            alertPresenter.show(quiz: viewModel)
+            alertPresenter.show(quiz: viewModel, statisticService: statisticService)
             imageView.layer.borderWidth = 0
         } else {
             currentQuestionIndex += 1
@@ -108,6 +111,9 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
             }
             imageView.layer.borderWidth = 0
         }
+    }
+    private func endGame(correctAnswers: Int, totalQuestions: Int) {
+        statisticService.store(correct: correctAnswers, total: totalQuestions)
     }
 }
 
