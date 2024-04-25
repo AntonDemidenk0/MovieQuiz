@@ -11,13 +11,13 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     private let questionsAmount: Int = 10
     private var questionFactory: QuestionFactoryProtocol?
     private var currentQuestion: QuizQuestion?
-    private let statisticService = StatisticServiceImplementation()
+    private let statisticService: StatisticService = StatisticServiceImplementation()
     private var currentQuestionIndex = 0
     private var correctAnswers = 0
     // MARK: - Overrides Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        overrideUserInterfaceStyle = .dark
         let questionFactory = QuestionFactory()
         questionFactory.delegate = self
         self.questionFactory = questionFactory
