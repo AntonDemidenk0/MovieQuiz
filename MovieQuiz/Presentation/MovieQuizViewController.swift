@@ -7,8 +7,8 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     @IBOutlet private weak var imageView: UIImageView!
     @IBOutlet private weak var textLabel: UILabel!
     @IBOutlet private weak var counterLabel: UILabel!
-    @IBOutlet private var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var stackView: UIStackView!
+    @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet private weak var stackView: UIStackView!
     // MARK: - Private Properties
     private let questionsAmount: Int = 10
     private var questionFactory: QuestionFactory?
