@@ -22,6 +22,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="lfV-M5-VWc">
+                                <rect key="frame" x="156" y="433" width="116" height="60"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="uTv-Vl-WEm">
                                 <rect key="frame" x="20" y="57" width="388" height="835"/>
                                 <subviews>
@@ -153,9 +157,11 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="lfV-M5-VWc" id="Buc-Rk-a19"/>
                         <outlet property="counterLabel" destination="agb-vM-z70" id="f01-S6-hOz"/>
                         <outlet property="imageView" destination="YXg-5i-YH5" id="xw7-7a-tBL"/>
                         <outlet property="noButton" destination="QN6-Ws-af7" id="SeF-ar-haA"/>
+                        <outlet property="stackView" destination="uTv-Vl-WEm" id="4Uc-g4-5jM"/>
                         <outlet property="textLabel" destination="bu6-Sh-Qxe" id="Udf-nY-9WC"/>
                         <outlet property="yesButton" destination="PFg-EE-tpA" id="wtX-Ko-CbB"/>
                     </connections>
