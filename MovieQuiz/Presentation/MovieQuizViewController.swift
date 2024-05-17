@@ -13,7 +13,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     private let questionsAmount: Int = 10
     private var questionFactory: QuestionFactory?
     private var currentQuestion: QuizQuestion?
-    private let statisticService = StatisticServiceImplementation()
+    private let statisticService: StatisticService = StatisticServiceImplementation()
     private var currentQuestionIndex = 0
     private var correctAnswers = 0
     // MARK: - Overrides Methods
