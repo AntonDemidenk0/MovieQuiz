@@ -31,12 +31,11 @@ class AlertPresenter {
             title: result.title,
             message: text,
             preferredStyle: .alert)
-        
+        alert.view.accessibilityIdentifier = "EndRoundAlert"
         let action = UIAlertAction(title: result.buttonText, style: .default) { _ in
             result.completion?()
             viewController.resetQuestionsResult()
         }
-        
         alert.addAction(action)
         
         viewController.present(alert, animated: true, completion: nil)
