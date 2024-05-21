@@ -1,6 +1,6 @@
 import UIKit
 
-final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
+final class MovieQuizViewController: UIViewController {
     // MARK: - IB Outlets
     @IBOutlet private weak var yesButton: UIButton!
     @IBOutlet private weak var noButton: UIButton!
@@ -10,137 +10,96 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet private weak var stackView: UIStackView!
     // MARK: - Private Properties
-    private var questionFactory: QuestionFactory?
+    private var presenter: MovieQuizPresenter!
     private var currentQuestion: QuizQuestion?
-    private let statisticService = StatisticServiceImplementation()
-    private var correctAnswers = 0
-    private let presenter = MovieQuizPresenter()
-    // MARK: - Overrides Methods
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        presenter = MovieQuizPresenter(viewController: self)
         overrideUserInterfaceStyle = .dark
         stackView.isHidden = true
         showLoadingIndicator()
-        questionFactory = QuestionFactory(moviesLoader: MoviesLoader(), delegate: self)
-        questionFactory?.loadData()
-    }
-    // MARK: - QuestionFactoryDelegate
-    func didReceiveNextQuestion(question: QuizQuestion?) {
-        guard let question = question else {
-            return
-        }
-        currentQuestion = question
-        let viewModel = presenter.convert(model: question)
-        
-        DispatchQueue.main.async { [weak self] in
-            self?.show(quiz: viewModel)
-        }
-        QuestionFactory.isRequestingQuestion = false
-    }
-    func didLoadDataFromServer() {
-        questionFactory?.requestNextQuestion()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.stackView.isHidden = false
-        }
-        activityIndicator.isHidden = true
-    }
-    func didFailToLoadData(with error: Error) {
-        showNetworkError(error: error)
-    }
-    // MARK: - AlertPresenter Methods
-    func resetQuestionsResult() {
-        self.presenter.resetQuestionIndex()
-        self.correctAnswers = 0
-        if let questionFactory = questionFactory {
-            questionFactory.requestNextQuestion()
-        }
     }
     // MARK: - IB Actions
     @IBAction private func yesButtonClicked(_ sender: UIButton) {
-        guard let currentQuestion = currentQuestion else {
-            return
-        }
-        let givenAnswer = true
-        showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
+                presenter.yesButtonClicked()
+        buttonBlock(true)
     }
     @IBAction private func noButtonClicked(_ sender: UIButton) {
-        guard let currentQuestion = currentQuestion else {
-            return
-        }
-        let givenAnswer = false
-        showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
+                presenter.noButtonClicked()
+        buttonBlock(true)
     }
-    // MARK: - Private Methods
-    private func show(quiz step: QuizStepViewModel) {
+    // MARK: - Methods
+    func show(quiz step: QuizStepViewModel) {
+        imageView.layer.borderWidth = 0
+        stackView.isHidden = false
         imageView.image = step.image
         textLabel.text = step.question
         counterLabel.text = step.questionNumber
-        yesButton.isEnabled = true
-        noButton.isEnabled = true
+        buttonBlock(false)
     }
-    private func showAnswerResult(isCorrect: Bool) {
+    func show(quiz result: QuizResultsViewModel) {
+            let message = presenter.makeResultsMessage()
+
+            let alert = UIAlertController(
+                title: result.title,
+                message: message,
+                preferredStyle: .alert)
+
+                let action = UIAlertAction(title: result.buttonText, style: .default) { [weak self] _ in
+                    guard let self = self else { return }
+
+                    self.presenter.restartGame()
+                }
+
+            alert.addAction(action)
+
+            self.present(alert, animated: true, completion: nil)
+        }
+    func highlightImageBorder(isCorrectAnswer: Bool) {
+            imageView.layer.masksToBounds = true
+            imageView.layer.borderWidth = 8
+            imageView.layer.borderColor = isCorrectAnswer ? UIColor.ypGreen.cgColor : UIColor.ypRed.cgColor
+        }
+    func showLoadingIndicator() {
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
+    }
+    func hideLoadingIndicator() {
+        activityIndicator.isHidden = true
+        activityIndicator.stopAnimating()
+    }
+    func buttonBlock(_ shouldBlock: Bool) {
+        yesButton.isEnabled = !shouldBlock
+        noButton.isEnabled = !shouldBlock
+    }
+   /* func showAnswerResult(isCorrect: Bool) {
         if isCorrect {
-            correctAnswers += 1
+            presenter.correctAnswers += 1
         }
         imageView.layer.masksToBounds = true
         imageView.layer.borderWidth = 8
         imageView.layer.borderColor = isCorrect ? UIColor.ypGreen.cgColor : UIColor.ypRed.cgColor
         yesButton.isEnabled = false
         noButton.isEnabled = false
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {[weak self] in
-            guard let self = self else { return }
-            self.showNextQuestionOrResults()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+                    guard let self = self else { return }
+            self.presenter.correctAnswers = self.presenter.correctAnswers
+                    self.presenter.showNextQuestionOrResults()
         }
-    }
-    private func showNextQuestionOrResults() {
-        if presenter.isLastQuestion() {
-            endGame(correctAnswers: correctAnswers, totalQuestions: presenter.questionsAmount)
-            let text = correctAnswers == presenter.questionsAmount ?
-            "Поздравляем, вы ответили на 10 из 10!" :
-            "Вы ответили на \(correctAnswers) из 10, попробуйте ещё раз!"
-            let viewModel = AlertModel(
-                title: "Этот раунд окончен!",
-                message: text,
-                buttonText: "Сыграть ещё раз",
-                correctAnswers: correctAnswers,
-                totalQuestions: presenter.questionsAmount,
-                completion: { [weak self] in
-                    self?.resetQuestionsResult()
-                })
-            let alertPresenter = AlertPresenter(viewController: self)
-            alertPresenter.show(quiz: viewModel, statisticService: statisticService)
-            imageView.layer.borderWidth = 0
-        } else {
-            presenter.switchToNextQuestion()
-            if let questionFactory = questionFactory {
-                questionFactory.self.requestNextQuestion()
-            }
-            imageView.layer.borderWidth = 0
-        }
-    }
-    private func showLoadingIndicator() {
-        activityIndicator.isHidden = false
-        activityIndicator.startAnimating()
-    }
-    private func hideLoadingIndicator() {
-        activityIndicator.isHidden = true
-        activityIndicator.stopAnimating()
-    }
-    private func showNetworkError(error: Error) {
+    }*/
+    func showNetworkError(message: String) {
         hideLoadingIndicator()
         
         let alert = UIAlertController(
-            title: "Ошибка", message: error.localizedDescription,
+            title: "Ошибка", message: message,
             preferredStyle: .alert)
         
-        let action = UIAlertAction(title: "Попробовать еще раз", style: .default) { [self] _ in
-            resetQuestionsResult()
+        let action = UIAlertAction(title: "Попробовать еще раз", style: .default) { [weak self] _ in
+            self?.presenter.restartGame()
         }
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
-    }
-    private func endGame(correctAnswers: Int, totalQuestions: Int) {
-        statisticService.store(correct: correctAnswers, total: totalQuestions)
     }
 }
 

@@ -1,9 +1,9 @@
 import Foundation
 import UIKit
 
-class AlertPresenter {
+/*class AlertPresenter {
     weak var viewController: MovieQuizViewController?
-    
+    weak var presenter: MovieQuizPresenter?
     init(viewController: MovieQuizViewController) {
         self.viewController = viewController
     }
@@ -34,10 +34,11 @@ class AlertPresenter {
         alert.view.accessibilityIdentifier = "EndRoundAlert"
         let action = UIAlertAction(title: result.buttonText, style: .default) { _ in
             result.completion?()
-            viewController.resetQuestionsResult()
+            self.presenter?.restartGame()
         }
         alert.addAction(action)
         
         viewController.present(alert, animated: true, completion: nil)
     }
 }
+*/

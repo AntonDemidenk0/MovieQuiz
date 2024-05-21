@@ -1,5 +1,5 @@
 import Foundation
-
+/*
 struct AlertModel {
     let title: String
     let message: String
@@ -8,3 +8,4 @@ struct AlertModel {
     let totalQuestions: Int
     let completion: (() -> Void)?
 }
+*/
