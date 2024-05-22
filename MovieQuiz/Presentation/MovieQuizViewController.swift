@@ -1,6 +1,6 @@
 import UIKit
 
-final class MovieQuizViewController: UIViewController {
+final class MovieQuizViewController: UIViewController, MovieQuizViewControllerProtocol {
     // MARK: - IB Outlets
     @IBOutlet private weak var yesButton: UIButton!
     @IBOutlet private weak var noButton: UIButton!
@@ -45,13 +45,13 @@ final class MovieQuizViewController: UIViewController {
                 title: result.title,
                 message: message,
                 preferredStyle: .alert)
-
+        alert.view.accessibilityIdentifier = "EndRoundAlert"
                 let action = UIAlertAction(title: result.buttonText, style: .default) { [weak self] _ in
                     guard let self = self else { return }
 
                     self.presenter.restartGame()
                 }
-
+            
             alert.addAction(action)
 
             self.present(alert, animated: true, completion: nil)

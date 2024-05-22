@@ -1,11 +1,5 @@
-//
-//  MovieQuizUITests.swift
-//  MovieQuizUITests
-//
-//  Created by Anton Demidenko on 16.5.24..
-//
-
 import XCTest
+
 
 final class MovieQuizUITests: XCTestCase {
     // swiftlint:disable:next implicitly_unwrapped_optional
@@ -52,6 +46,7 @@ final class MovieQuizUITests: XCTestCase {
         XCTAssertNotEqual(firstPosterData, secondPosterData)
     }
     func testEndRoundAlert() {
+        sleep(2)
         for _ in 1...10 {
             app.buttons["Yes"].tap()
             sleep(2)
@@ -60,9 +55,22 @@ final class MovieQuizUITests: XCTestCase {
         XCTAssertTrue(alert.exists)
         XCTAssertEqual(alert.label, "Этот раунд окончен!")
         XCTAssertEqual(alert.buttons.firstMatch.label, "Сыграть ещё раз")
-        alert.buttons.firstMatch.tap()
+    }
+
+    func testAlertDismiss() {
         sleep(2)
+        for _ in 1...10 {
+            app.buttons["No"].tap()
+            sleep(2)
+        }
+        
+        let alert = app.alerts["EndRoundAlert"]
+        alert.buttons.firstMatch.tap()
+        
+        sleep(2)
+        
         let indexLabel = app.staticTexts["Index"]
+        
         XCTAssertFalse(alert.exists)
         XCTAssertTrue(indexLabel.label == "1/10")
     }
