@@ -43,10 +43,10 @@ final class MovieQuizUITests: XCTestCase {
         XCTAssertNotEqual(firstPosterData, secondPosterData)
     }
     func testEndRoundAlert() {
-        sleep(2)
+        sleep(5)
         for _ in 1...10 {
             app.buttons["Yes"].tap()
-            sleep(2)
+            sleep(3)
         }
         let alert = app.alerts["EndRoundAlert"]
         XCTAssertTrue(alert.exists)
@@ -55,10 +55,10 @@ final class MovieQuizUITests: XCTestCase {
     }
 
     func testAlertDismiss() {
-        sleep(2)
+        sleep(5)
         for _ in 1...10 {
             app.buttons["No"].tap()
-            sleep(2)
+            sleep(3)
         }
         
         let alert = app.alerts["EndRoundAlert"]
